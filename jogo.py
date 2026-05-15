@@ -1,10 +1,12 @@
 from PPlay.sprite import *
 from PPlay.keyboard import *
+from background import cor
 
 keyboard = Keyboard()
 
+
 def Jogatina(janela, nave, tiros, velocidade, velocidade_tiro):
-    janela.set_background_color([200,0,20])
+    cor(janela, "vermelho")
     nave.draw()
     if keyboard.key_pressed("right"):
         nave.x += velocidade*janela.delta_time()

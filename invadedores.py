@@ -2,48 +2,33 @@ from PPlay.sprite import *
 from PPlay.keyboard import *
 from PPlay.mouse import *
 from jogo import Jogatina
-
-keyboard = Keyboard()
-janela = Window(1200,600)
-janela.set_background_color([15,0,20])
-mouse = Mouse()
-
-mouse_pressed_before = False
+from sprites import bichinhos
+from background import cor
 
 def clicou_em(obj):
     return mouse.button_down(1) and mouse.is_over_object(obj)
 
-tela = 0
+keyboard = Keyboard()
+janela = Window(1200,600)
+mouse = Mouse()
+
+#Cria os sprites
+sprites = bichinhos(janela)
+start   = sprites["start"]
+dificult = sprites["dificult"]
+ranking  = sprites["ranking"]
+exit     = sprites["exit"]
+facil    = sprites["facil"]
+medio    = sprites["medio"]
+dificil  = sprites["dificil"]
+nave     = sprites["nave"]
+
 dificuldade = 0
-
-
-start = Sprite("start.jpg")
-start.set_position((janela.width/2-start.width/2),(janela.height/2-start.height/2))
-
-dificult = Sprite("dificult.jpg")
-dificult.set_position((janela.width/2-dificult.width/2),(janela.height/2-dificult.height/2) + 75)
-
-ranking = Sprite("ranking.jpg")
-ranking.set_position((janela.width/2-ranking.width/2),(janela.height/2-ranking.height/2) + 150)
-
-exit = Sprite("exit.jpg")
-exit.set_position((janela.width/2-exit.width/2),(janela.height/2-exit.height/2) +225)
-
-facil = Sprite("facil.png")
-facil.set_position((janela.width/2-facil.width/2),(janela.height/2-facil.height/2) +225)
-
-medio = Sprite("medio.png")
-medio.set_position((janela.width/2-medio.width/2),(janela.height/2-medio.height/2) + 150)
-
-dificil = Sprite("dificil.png")
-dificil.set_position((janela.width/2-dificil.width/2),(janela.height/2-dificil.height/2) +75)
-
-nave = Sprite("nave.png")
-nave.set_position((janela.width/2-nave.width/2),(janela.height/2-nave.height/2) +280)
-
 tiro_sprite = Sprite("tiro.png")
 tiros = []
+tela = 0
 
+#--------------------------------------------------------------------------------
 while True:
     #velocidade nave
     if dificuldade == 0:
@@ -66,7 +51,9 @@ while True:
     else:
         tiro_status = True
     #--------------------------------------------------------------------------------
+    print(tela)
     if tela == 0:
+        cor(janela, "roxinho")
         start.draw()
         dificult.draw()
         ranking.draw()
@@ -84,9 +71,12 @@ while True:
         
     elif tela == 1:
         Jogatina(janela, nave, tiros, velocidade, velocidade_tiro)
+        if keyboard.key_pressed("ESC"):
+            tela = 0
         
 
     elif tela == 2:
+        cor(janela, "cinza")
         facil.draw()
         medio.draw()
         dificil.draw()
