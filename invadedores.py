@@ -1,7 +1,7 @@
 from PPlay.sprite import *
 from PPlay.keyboard import *
 from PPlay.mouse import *
-# from rato import clicou_em
+from jogo import Jogatina
 
 keyboard = Keyboard()
 janela = Window(1200,600)
@@ -11,11 +11,7 @@ mouse = Mouse()
 mouse_pressed_before = False
 
 def clicou_em(obj):
-    global mouse_pressed_before
-    mouse_pressed_now = mouse.button_pressed(1)
-    clicked = mouse.is_over_object(obj) and mouse_pressed_before and not mouse_pressed_now
-    mouse_pressed_before = mouse_pressed_now
-    return clicked
+    return mouse.button_down(1) and mouse.is_over_object(obj)
 
 tela = 0
 dificuldade = 0
@@ -78,50 +74,32 @@ while True:
 
         if clicou_em(start):
             tela = 1
-
         if clicou_em(dificult):
             tela = 2
-
         if clicou_em(ranking):
             tela = 3
-
         if clicou_em(exit):
             break
 
         
-    if tela == 1:
-        janela.set_background_color([200,0,20])
-        nave.draw()
-        if keyboard.key_pressed("right"):
-            nave.x += velocidade*janela.delta_time()
-        if keyboard.key_pressed("left"):
-            nave.x -= velocidade*janela.delta_time()
-        if nave.x < 0:
-            nave.x = 0
-        if nave.x > janela.width - nave.width:
-            nave.x = janela.width - nave.width
-        if keyboard.key_down("space"):
-            novo_tiro = Sprite("tiro.png")
-            novo_tiro.set_position(nave.x + nave.width/2 - novo_tiro.width/2, nave.y - novo_tiro.height)
-            tiros.append(novo_tiro)
-        for tiro in tiros[:]:
-            tiro.draw()
-            tiro.y -= velocidade_tiro*janela.delta_time()
-            if tiro.y < 0:
-                tiros.remove(tiro)
+    elif tela == 1:
+        Jogatina(janela, nave, tiros, velocidade, velocidade_tiro)
+        
 
-
-    if tela == 2:
+    elif tela == 2:
         facil.draw()
         medio.draw()
         dificil.draw()
         if clicou_em(facil):
             dificuldade = 0
+            tela = 0
         if clicou_em(medio):
             dificuldade = 1
+            tela = 0
         if clicou_em(dificil):
             dificuldade = 2
+            tela = 0
 
-    if tela == 3:
+    elif tela == 3:
         tela = 0 
     janela.update()
