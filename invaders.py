@@ -31,14 +31,23 @@ tiros = []
 tela = 0
 
 fps_real = 0
-fps_calculo = 0
+fps_timer = 0
+fps_display = 0
 
 #--------------------------------------------------------------------------------
 while True:
 
-
-
-
+    # FPS 
+    dt = janela.delta_time()
+    fps_timer += dt
+    if dt > 0:
+        fps_real = int(1.0 / dt)
+    else:
+        fps_real = 0
+    if fps_timer >= 1.0:
+        fps_display = fps_real
+        fps_timer = 0
+    janela.draw_text(f"FPS: {fps_display}", 10, 10, tamanho=18, cor=(255,255,0))
 
 
     #velocidade nave
