@@ -24,8 +24,22 @@ def bichinhos(janela):
 
     nave = Sprite("nave.png")
     nave.set_position((janela.width/2-nave.width/2),(janela.height/2-nave.height/2) +280)
+
+    coluna = 9
+    linha = 4
+    bicho = Sprite("bicho.png")
+    spacing_x = bicho.width / 2
+    spacing_y = bicho.height / 2
     
-    return{
+    inimigos = [[Sprite("bicho.png") for j in range(coluna)] for i in range(linha)]
+    for i in range(linha):
+        for j in range(coluna):
+            x = (janela.width/2 - (coluna * bicho.width + (coluna-1) * spacing_x) / 2) + j * (bicho.width + spacing_x)
+            y = 50 + i * (bicho.height + spacing_y)
+            inimigos[i][j].set_position(x, y)
+
+    
+    return {
         "start": start,
         "dificult": dificult,
         "ranking": ranking,
@@ -33,5 +47,7 @@ def bichinhos(janela):
         "facil": facil,
         "medio": medio,
         "dificil": dificil,
-        "nave": nave
+        "nave": nave,
+        "bicho": bicho,
+        "inimigos": inimigos
     }

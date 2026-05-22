@@ -22,14 +22,25 @@ facil    = sprites["facil"]
 medio    = sprites["medio"]
 dificil  = sprites["dificil"]
 nave     = sprites["nave"]
+bicho    = sprites["bicho"]
+inimigos  = sprites["inimigos"]
 
 dificuldade = 0
 tiro_sprite = Sprite("tiro.png")
 tiros = []
 tela = 0
 
+fps_real = 0
+fps_calculo = 0
+
 #--------------------------------------------------------------------------------
 while True:
+
+
+
+
+
+
     #velocidade nave
     if dificuldade == 0:
       velocidade = 500
@@ -51,7 +62,6 @@ while True:
     else:
         tiro_status = True
     #--------------------------------------------------------------------------------
-    print(tela)
     if tela == 0:
         cor(janela, "roxinho")
         start.draw()
@@ -70,8 +80,8 @@ while True:
 
         
     elif tela == 1:
-        Jogatina(janela, nave, tiros, velocidade, velocidade_tiro)
-        if keyboard.key_pressed("ESC"):
+        Jogatina(janela, nave, tiros, velocidade, velocidade_tiro, inimigos)
+        if keyboard.key_pressed("ESC") or bicho.y > janela.height - 100:
             tela = 0
         
 
