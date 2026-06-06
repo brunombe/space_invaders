@@ -28,35 +28,25 @@ inimigos  = sprites["inimigos"]
 dificuldade = 0
 tiro_sprite = Sprite("tiro.png")
 tiros = []
+tiros_inimigos = []
+vidas = 3
+invencivel = False
+tempo_invencivel = 0
+tempo_ultimo_tiro = 0
 tela = 0
 
 fps_real = 0
-fps_timer = 0
-fps_display = 0
+fps_calculo = 0
 
 #--------------------------------------------------------------------------------
 while True:
-
-    # FPS 
-    dt = janela.delta_time()
-    fps_timer += dt
-    if dt > 0:
-        fps_real = int(1.0 / dt)
-    else:
-        fps_real = 0
-    if fps_timer >= 1.0:
-        fps_display = fps_real
-        fps_timer = 0
-    janela.draw_text(f"FPS: {fps_display}", 10, 10, tamanho=18, cor=(255,255,0))
-
-
     #velocidade nave
     if dificuldade == 0:
-      velocidade = 500
+        velocidade = 500
     elif dificuldade == 1:
-       velocidade = 400
+        velocidade = 400
     elif dificuldade == 2:
-       velocidade = 300
+        velocidade = 300
 
     #velocidade tiro
     if dificuldade == 0:
@@ -66,11 +56,6 @@ while True:
     elif dificuldade == 2:    
         velocidade_tiro = 500
     
-    if tiros == []:
-        tiro_status = False
-    else:
-        tiro_status = True
-    #--------------------------------------------------------------------------------
     if tela == 0:
         cor(janela, "roxinho")
         start.draw()
@@ -86,13 +71,24 @@ while True:
             tela = 3
         if clicou_em(exit):
             break
-
-        
+            
     elif tela == 1:
-        Jogatina(janela, nave, tiros, velocidade, velocidade_tiro, inimigos)
-        if keyboard.key_pressed("ESC") or bicho.y > janela.height - 100:
-            tela = 0
+        tela, vidas, invencivel, tempo_invencivel, tempo_ultimo_tiro = Jogatina(
+            janela, nave, tiros, tiros_inimigos, velocidade, velocidade_tiro, inimigos,
+            vidas, invencivel, tempo_invencivel, tempo_ultimo_tiro
+        )
         
+        if keyboard.key_pressed("ESC") or bicho.y > janela.height - 100 or tela == 0:
+            tela = 0
+            sprites = bichinhos(janela) 
+            inimigos = sprites["inimigos"]
+            nave = sprites["nave"]
+            tiros.clear()
+            tiros_inimigos.clear()
+            vidas = 3
+            invencivel = False
+            tempo_invencivel = 0
+            tempo_ultimo_tiro = 0
 
     elif tela == 2:
         cor(janela, "cinza")
@@ -111,4 +107,5 @@ while True:
 
     elif tela == 3:
         tela = 0 
+        
     janela.update()
